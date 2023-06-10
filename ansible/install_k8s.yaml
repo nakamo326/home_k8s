@@ -12,21 +12,25 @@
           - apt-transport-https
           - ca-certificates
           - curl
+
     - name: Download Google Cloud public signing key
       ansible.builtin.get_url:
         url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
         dest: /tmp/kubernetes-archive-keyring.gpg
         mode: "0644"
+
     - name: Install Google Cloud public signing key
       ansible.builtin.command: gpg --batch --yes --dearmor -o /usr/share/keyrings/kubernetes-archive-keyring.gpg /tmp/kubernetes-archive-keyring.gpg
       register: gpg_output
       changed_when: gpg_output.rc == 0
+
     - name: Add the Kubernetes apt repository
       ansible.builtin.lineinfile:
         path: /etc/apt/sources.list.d/kubernetes.list
         line: "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main"
         create: true
         mode: "0644"
+
     - name: Install Kubernetes Packages
       ansible.builtin.apt:
         pkg:
@@ -34,6 +38,7 @@
           - kubeadm
           - kubectl
         update_cache: true
+
     - name: Hold Kubernetes Packages
       ansible.builtin.dpkg_selections:
         name: "{{ item }}"
@@ -51,6 +56,7 @@
           https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/{{ os }}/ /"
         create: true
         mode: "0644"
+
     - name: Define cri-o repository sources list
       ansible.builtin.lineinfile:
         path: "/etc/apt/sources.list.d/devel:kubic:libcontainers:stable:cri-o:{{ kube_version }}.list"
@@ -59,6 +65,7 @@
           https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/{{ kube_version }}/{{ os }}/ /"
         create: true
         mode: "0644"
+
     - name: Download and install keys
       block:
         - name: Download libcontainers key
@@ -81,17 +88,20 @@
             /tmp/libcontainers-crio-archive-keyring.gpg"
           register: gpg_output
           changed_when: gpg_output.rc == 0
+
     - name: Install CRI-O
       ansible.builtin.apt:
         pkg:
           - cri-o
           - cri-o-runc
         update_cache: true
+
     - name: Enable CRI-O
       ansible.builtin.service:
         name: crio
         enabled: true
         state: started
+
     - name: Setting kernel module
       ansible.builtin.lineinfile:
         path: /etc/modules-load.d/k8s.conf
@@ -101,6 +111,7 @@
       with_items:
         - overlay
         - br_netfilter
+
     - name: Load kernel module
       community.general.modprobe:
         name: "{{ item }}"
@@ -108,6 +119,7 @@
       with_items:
         - overlay
         - br_netfilter
+
     - name: Setting Sysctl
       ansible.builtin.lineinfile:
         path: /etc/sysctl.conf
@@ -124,10 +136,12 @@
           line: fs.inotify.max_user_instances=100000
         - regexp: fs.inotify.max_user_watches
           line: fs.inotify.max_user_watches=100000
+
     - name: Run sudo sysctl --system
       ansible.builtin.command: "sysctl --system"
       register: sysctl_output
       changed_when: sysctl_output.rc == 0
+
     - name: Disable swap
       block:
         - name: Change fstab
