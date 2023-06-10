@@ -1,5 +1,5 @@
 - name: Install Kubernetes toolchain on Ubuntu
-  hosts: hosts
+  hosts: all
   become: true
   become_user: root
   vars:
