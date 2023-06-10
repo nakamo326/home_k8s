@@ -87,6 +87,11 @@
           - cri-o
           - cri-o-runc
         update_cache: true
+    - name: Enable CRI-O
+      ansible.builtin.service:
+        name: crio
+        enabled: true
+        state: started
     - name: Setting kernel module
       ansible.builtin.lineinfile:
         path: /etc/modules-load.d/k8s.conf
@@ -119,8 +124,18 @@
           line: fs.inotify.max_user_instances=100000
         - regexp: fs.inotify.max_user_watches
           line: fs.inotify.max_user_watches=100000
+    - name: Run sudo sysctl --system
+      ansible.builtin.command: "sysctl --system"
+      register: sysctl_output
+      changed_when: sysctl_output.rc == 0
     - name: Disable swap
-      ansible.builtin.lineinfile:
-        path: /etc/fstab
-        regexp: '\sswap\s'
-        state: absent
+      block:
+        - name: Change fstab
+          ansible.builtin.lineinfile:
+            path: /etc/fstab
+            regexp: '\sswap\s'
+            state: absent
+        - name: Enable swapoff
+          ansible.builtin.command: swapoff -a
+          register: swapoff_output
+          changed_when: swapoff_output.rc == 0
