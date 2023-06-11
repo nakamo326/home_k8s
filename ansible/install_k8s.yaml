@@ -6,6 +6,10 @@
     os: "xUbuntu_22.04"
     kube_version: "1.27"
   tasks:
+    - name: Set timezone to Asia/Tokyo
+      community.general.timezone:
+        name: Asia/Tokyo
+
     - name: Install Packages
       ansible.builtin.package:
         name:
