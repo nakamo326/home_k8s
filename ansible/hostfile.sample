@@ -1,12 +1,13 @@
 [master]
-master ansible_host={master_ip}
+master00 ansible_host={master00_ip}
 
 [worker]
 worker00 ansible_host={worker00_ip}
 worker01 ansible_host={worker01_ip}
+worker02 ansible_host={worker02_ip}
 
 
 [hosts:vars]
 ansible_user={machine_user}
 ansible_ssh_private_key_file="~/.ssh/{your_key}"
-master_name=master
+master_name=master00
