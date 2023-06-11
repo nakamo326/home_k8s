@@ -1,12 +1,12 @@
 - name: Join the cluster
   hosts: all
-  become: true
-  become_user: root
   tasks:
     - name: Check if the worker has already joined the cluster
       ansible.builtin.shell: |
         set -o pipefail
         kubectl get nodes | grep {{ inventory_hostname }} || true
+      args:
+        executable: /bin/bash
       register: node_status
       delegate_to: "{{ hostvars[master_name].ansible_host }}"
       changed_when: false
@@ -23,4 +23,6 @@
         - name: Join the cluster
           ansible.builtin.command: "{{ join_command['content'] | b64decode }}"
           register: join_result
+          become: true
+          become_user: root
           changed_when: true
