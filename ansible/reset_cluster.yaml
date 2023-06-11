@@ -1,0 +1,50 @@
+- name: Reset cluster
+  hosts: all
+  become: true
+  become_user: root
+  tasks:
+    - name: Run kubeadm reset
+      ansible.builtin.command: kubeadm reset -f
+      register: kubeadm_reset
+      changed_when: kubeadm_reset.rc == 0
+
+    - name: Remove CNI configurations
+      ansible.builtin.file:
+        path: /etc/cni/net.d
+        state: absent
+
+    - name: Stop kubelet service
+      ansible.builtin.systemd:
+        name: kubelet
+        state: stopped
+
+    - name: Stop crio service
+      ansible.builtin.systemd:
+        name: crio
+        state: stopped
+
+    - name: Flush iptables
+      ansible.builtin.command: "{{ item }}"
+      with_items:
+        - "iptables -F"
+        - "iptables -t nat -F"
+        - "iptables -t mangle -F"
+        - "iptables -X"
+
+    - name: Set cni0 down
+      ansible.builtin.command: "ip link set cni0 down"
+      ignore_errors: true
+
+    - name: Delete cni0
+      ansible.builtin.command: "ip link delete cni0 type bridge"
+      ignore_errors: true
+
+    - name: Start kubelet service
+      ansible.builtin.systemd:
+        name: kubelet
+        state: started
+
+    - name: Start crio service
+      ansible.builtin.systemd:
+        name: crio
+        state: started
