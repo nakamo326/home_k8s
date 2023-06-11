@@ -24,7 +24,7 @@
         state: stopped
 
     - name: Flush iptables
-      ansible.builtin.commmand: "{{ item }}"
+      ansible.builtin.command: "{{ item }}"
       with_items:
         - "iptables -F"
         - "iptables -t nat -F"
