@@ -9,22 +9,32 @@
       register: kubeconfig
 
     - name: Initialize the cluster
-      ansible.builtin.command: "kubeadm init --apiserver-advertise-address={{ ansible_host }} --pod-network-cidr=192.168.0.0/16"
+      ansible.builtin.command: "kubeadm init --apiserver-advertise-address={{ ansible_host }} --pod-network-cidr=10.244.0.0/16"
       args:
         creates: /etc/kubernetes/admin.conf
       when: not kubeconfig.stat.exists
 
     - name: Setup kubectl config
-      ansible.builtin.command: "{{ item }}"
-      with_items:
-        - mkdir -p $HOME/.kube
-        - sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-        - sudo chown $(id -u):$(id -g) $HOME/.kube/config
-      changed_when: true
       when: not kubeconfig.stat.exists
+      block:
+        - name: Create .kube directory
+          ansible.builtin.command: "mkdir -p $HOME/.kube"
+          become: true
+          become_user: "{{ ansible_user }}"
+          changed_when: false
+        - name: Copy kubeconfig
+          ansible.builtin.command: "{{ item }}"
+          with_items:
+            - "cp -f /etc/kubernetes/admin.conf /home/{{ ansible_user }}/.kube/config"
+            - "chown {{ ansible_user }}:{{ ansible_user }} /home/{{ ansible_user }}/.kube/config"
+          become: true
+          become_user: "root"
+          changed_when: true
 
     - name: Get join command
       ansible.builtin.command: kubeadm token create --print-join-command
+      become: true
+      become_user: "{{ ansible_user }}"
       register: join_command
       changed_when: true
 
