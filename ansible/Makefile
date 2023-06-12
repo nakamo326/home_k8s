@@ -8,4 +8,8 @@ cluster:
 reset:
 	ansible-playbook reset_cluster.yaml --ask-become-pass
 
+restart:
+	ansible-playbook restart.yaml --ask-become-pass
+
+
 .PHONY: all cluster

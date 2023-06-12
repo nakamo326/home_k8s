@@ -1,0 +1,8 @@
+- name: Restart machines
+  hosts: all
+  become: true
+  become_user: root
+  tasks:
+    - name: Restart
+      ansible.builtin.command: shutdown -r now
+      changed_when: true
