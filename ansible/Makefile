@@ -8,7 +8,7 @@ cluster:
 reset:
 	ansible-playbook reset_cluster.yaml --ask-become-pass
 
-reset:
+restart:
 	ansible-playbook restart.yaml --ask-become-pass
 
 
