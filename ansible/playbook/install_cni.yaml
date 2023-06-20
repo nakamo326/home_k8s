@@ -1,0 +1,13 @@
+- name: Install CNI
+  hosts: master
+  tasks:
+    - name: Copy cilium values
+      ansible.builtin.copy:
+        src: ../settings/cilium-values.yaml
+        dest: /tmp/cilium-values.yaml
+        mode: "0644"
+
+    - name: Install CNI
+      ansible.builtin.command: cilium install  --helm-values /tmp/cilium-values.yaml
+      register: cilium_install
+      changed_when: cilium_install.rc == 0
