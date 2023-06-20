@@ -3,8 +3,10 @@ all:
 
 cluster:
 	ansible-playbook playbook/init_cluster.yaml --ask-become-pass
-	ansible-playbook playbook/install_tools.yaml --ask-become-pass
 	ansible-playbook playbook/join_cluster.yaml --ask-become-pass
+
+tools:
+	ansible-playbook playbook/install_tools.yaml --ask-become-pass
 
 reset:
 	ansible-playbook playbook/reset_cluster.yaml --ask-become-pass
