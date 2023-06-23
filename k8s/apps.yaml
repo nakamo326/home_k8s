@@ -13,6 +13,6 @@ spec:
     namespace: default
     server: https://kubernetes.default.svc
   source:
-    path: k8s/apps.yaml
+    path: k8s/apps
     repoURL: https://github.com/nakamo326/home_k8s
     targetRevision: HEAD
