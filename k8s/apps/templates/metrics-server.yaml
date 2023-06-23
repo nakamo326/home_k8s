@@ -1,0 +1,19 @@
+# application resource of argocd for metrics-server
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: metrics-server
+  namespace: argocd
+spec:
+  destination:
+    namespace: kube-system
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: metrics-server
+    repoURL: https://kubernetes-sigs.github.io/metrics-server
+    targetRevision: 3.10.0
+    helm:
+      parameters:
+        - name: args
+          value: --kubelet-insecure-tls
