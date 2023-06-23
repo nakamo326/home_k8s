@@ -1,0 +1,21 @@
+# application resource of argocd for datadog operator
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: datadog-operator
+  namespace: argocd
+spec:
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+  destination:
+    namespace: datadog
+    server: https://kubernetes.default.svc
+  source:
+    repoURL: https://helm.datadoghq.com
+    targetRevision: 1.0.3
+    path: datadog-operator
