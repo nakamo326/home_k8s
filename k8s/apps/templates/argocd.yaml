@@ -1,8 +1,7 @@
-# application resource of argocd for datadog operator
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: datadog-operator
+  name: argocd
   namespace: argocd
 spec:
   project: default
@@ -13,9 +12,14 @@ spec:
     syncOptions:
       - CreateNamespace=true
   destination:
-    namespace: datadog
+    namespace: argocd
     server: https://kubernetes.default.svc
   source:
-    repoURL: https://helm.datadoghq.com
-    targetRevision: 1.0.3
-    chart: datadog-operator
+    repoURL: https://argoproj.github.io/argo-helm
+    chart: argo-cd
+    targetRevision: "5.36.7"
+    helm:
+      values: |
+        configs:
+          params:
+            server.insecure: true

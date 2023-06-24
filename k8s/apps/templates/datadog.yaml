@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: datadog
+  namespace: argocd
+spec:
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+  destination:
+    namespace: datadog
+    server: https://kubernetes.default.svc
+  source:
+    path: k8s/helm/datadog
+    repoURL: https://github.com/nakamo326/home_k8s
+    targetRevision: HEAD

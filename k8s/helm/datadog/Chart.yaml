@@ -1,0 +1,11 @@
+apiVersion: v2
+name: datadog
+description: datadog operator and configMap
+type: application
+version: 0.1.0
+appVersion: "1.16.0"
+
+dependencies:
+  - name: datadog-operator
+    version: 1.0.3
+    repository: https://helm.datadoghq.com
