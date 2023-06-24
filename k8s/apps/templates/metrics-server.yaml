@@ -14,6 +14,6 @@ spec:
     chart: metrics-server
     targetRevision: "3.10.0"
     helm:
-      parameters:
-        - name: args
-          value: --kubelet-insecure-tls
+      values: |
+        args:
+          - --kubelet-insecure-tls
