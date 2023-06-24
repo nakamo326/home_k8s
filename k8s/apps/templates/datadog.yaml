@@ -17,4 +17,4 @@ spec:
   source:
     path: k8s/helm/datadog
     repoURL: https://github.com/nakamo326/home_k8s
-    targetRevision: feature/dd_test
+    targetRevision: HEAD
