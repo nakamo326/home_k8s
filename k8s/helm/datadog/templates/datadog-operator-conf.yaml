@@ -98,7 +98,7 @@ data:
       - prometheus_url: https://%%host%%:10257/metrics
         ssl_verify: false
         bearer_token_auth: true
-  temp.yaml: |-
+  temp.yaml: |
     init_config:
     instances: [{}]
 ---
