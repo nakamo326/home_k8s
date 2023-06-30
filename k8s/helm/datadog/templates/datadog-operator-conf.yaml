@@ -98,7 +98,7 @@ data:
       - prometheus_url: https://%%host%%:10257/metrics
         ssl_verify: false
         bearer_token_auth: true
-  temp.yaml: |
+  custom_temp.yaml: |-
     init_config:
     instances: [{}]
 ---
@@ -108,7 +108,7 @@ metadata:
   name: checksd-config
   namespace: datadog
 data:
-  temp.py: |
+  custom_temp.py: |
     from datadog_checks.base import AgentCheck
 
     __version__ = "1.0.0"
