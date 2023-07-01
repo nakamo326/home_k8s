@@ -111,6 +111,7 @@ metadata:
 data:
   custom_temp.py: |
     from datadog_checks.base import AgentCheck
+    from pathlib import Path
 
     __version__ = "1.0.0"
     class TempCheck(AgentCheck):
