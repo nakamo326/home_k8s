@@ -34,9 +34,9 @@ spec:
       extraConfd:
         configMap:
           name: datadog-checks
-      extraChecksd:
-        configMap:
-          name: checksd-config
+      # extraChecksd:
+      #   configMap:
+      #     name: checksd-config
       containers:
         agent:
           volumeMounts:
@@ -49,9 +49,9 @@ spec:
               mountPath: /etc/datadog-agent/conf.d/kube_scheduler.d
             - name: disable-controller-manager-autoconf
               mountPath: /etc/datadog-agent/conf.d/kube_controller_manager.d
-            - name: thermal_zone0
-              readOnly: true
-              mountPath: /host/sys/class/thermal/thermal_zone0
+            # - name: thermal_zone0
+            #   readOnly: true
+            #   mountPath: /host/sys/class/thermal/thermal_zone0
       volumes:
         - name: etcd-certs
           hostPath:
@@ -62,9 +62,9 @@ spec:
           emptyDir: {}
         - name: disable-controller-manager-autoconf
           emptyDir: {}
-        - name: thermal_zone0
-          hostPath:
-            path: /sys/class/thermal/thermal_zone0
+        # - name: thermal_zone0
+        #   hostPath:
+        #     path: /sys/class/thermal/thermal_zone0
       tolerations:
         - key: node-role.kubernetes.io/control-plane
           operator: Exists
@@ -98,24 +98,25 @@ data:
       - prometheus_url: https://%%host%%:10257/metrics
         ssl_verify: false
         bearer_token_auth: true
-  custom_temp.yaml: |-
-    init_config:
-    instances: [{}]
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: checksd-config
-  namespace: datadog
-data:
-  custom_temp.py: |
-    from datadog_checks.base import AgentCheck
+  # custom_temp.yaml: |-
+  #   init_config:
+  #   instances: [{}]
 
-    __version__ = "1.0.0"
-    class TempCheck(AgentCheck):
-        def check(self, instance):
-            self.gauge(
-                "custom.temperature",
-                (int(Path("/host/sys/class/thermal/thermal_zone0/temp").read_text().strip()) / 1000),
-                tags=[],
-            )
+# ---
+# apiVersion: v1
+# kind: ConfigMap
+# metadata:
+#   name: checksd-config
+#   namespace: datadog
+# data:
+#   custom_temp.py: |
+#     from datadog_checks.base import AgentCheck
+
+#     __version__ = "1.0.0"
+#     class TempCheck(AgentCheck):
+#         def check(self, instance):
+#             self.gauge(
+#                 "custom.temperature",
+#                 (int(Path("/host/sys/class/thermal/thermal_zone0/temp").read_text().strip()) / 1000),
+#                 tags=[],
+#             )
