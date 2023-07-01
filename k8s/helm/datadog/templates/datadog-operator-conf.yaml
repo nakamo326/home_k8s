@@ -49,9 +49,9 @@ spec:
               mountPath: /etc/datadog-agent/conf.d/kube_scheduler.d
             - name: disable-controller-manager-autoconf
               mountPath: /etc/datadog-agent/conf.d/kube_controller_manager.d
-            - name: thermal_zone0
-              readOnly: true
-              mountPath: /host/sys/class/thermal/thermal_zone0/temp
+            # - name: thermal_zone0
+            #   readOnly: true
+            #   mountPath: /host/sys/class/thermal/thermal_zone0/temp
       volumes:
         - name: etcd-certs
           hostPath:
@@ -62,10 +62,10 @@ spec:
           emptyDir: {}
         - name: disable-controller-manager-autoconf
           emptyDir: {}
-        - name: thermal_zone0
-          hostPath:
-            path: /sys/class/thermal/thermal_zone0/temp
-            type: File
+        # - name: thermal_zone0
+        #   hostPath:
+        #     path: /sys/class/thermal/thermal_zone0/temp
+        #     type: File
       tolerations:
         - key: node-role.kubernetes.io/control-plane
           operator: Exists
