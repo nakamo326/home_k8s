@@ -118,6 +118,6 @@ data:
         def check(self, instance):
             self.gauge(
                 "custom.temperature",
-                (int(Path("/host/sys/class/thermal/thermal_zone0/temp").read_text().strip()) / 1000, self.instance.get('tags', [])),
+                (int(Path("/host/sys/class/thermal/thermal_zone0/temp").read_text().strip()) / 1000),
                 tags=[],
             )
