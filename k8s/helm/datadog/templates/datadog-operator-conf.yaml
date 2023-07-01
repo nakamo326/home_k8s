@@ -117,7 +117,7 @@ data:
     class TempCheck(AgentCheck):
         def check(self, instance):
             self.gauge(
-                "custom.temperature",
+                "custom.temperature.motherboard",
                 (int(Path("/host/sys/class/thermal/thermal_zone0/temp").read_text().strip()) / 1000),
                 tags=[],
             )
