@@ -34,9 +34,9 @@ spec:
       extraConfd:
         configMap:
           name: datadog-checks
-      extraChecksd:
-        configMap:
-          name: checksd-config
+      # extraChecksd:
+      #   configMap:
+      #     name: checksd-config
       containers:
         agent:
           volumeMounts:
@@ -102,20 +102,20 @@ data:
     init_config:
     instances: [{}]
 ---
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: checksd-config
-  namespace: datadog
-data:
-  custom_temp.py: |
-    from datadog_checks.base import AgentCheck
+# apiVersion: v1
+# kind: ConfigMap
+# metadata:
+#   name: checksd-config
+#   namespace: datadog
+# data:
+#   custom_temp.py: |
+#     from datadog_checks.base import AgentCheck
 
-    __version__ = "1.0.0"
-    class TempCheck(AgentCheck):
-        def check(self, instance):
-            self.gauge(
-                "custom.temperature",
-                (int(Path("/host/sys/class/thermal/thermal_zone0/temp").read_text().strip()) / 1000),
-                tags=[],
-            )
+#     __version__ = "1.0.0"
+#     class TempCheck(AgentCheck):
+#         def check(self, instance):
+#             self.gauge(
+#                 "custom.temperature",
+#                 (int(Path("/host/sys/class/thermal/thermal_zone0/temp").read_text().strip()) / 1000),
+#                 tags=[],
+#             )
