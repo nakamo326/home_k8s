@@ -119,5 +119,5 @@ data:
             self.gauge(
                 "custom.temperature",
                 (int(Path("/host/sys/class/thermal/thermal_zone0/temp").read_text().strip()) / 1000),
-                tags=[]
+                tags=self.instance.get('tags', [])
             )
