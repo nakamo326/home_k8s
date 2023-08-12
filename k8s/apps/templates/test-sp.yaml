@@ -1,5 +1,5 @@
 # manifest for simple deployment.
-kind: deployment
+kind: Deployment
 apiVersion: apps/v1
 metadata:
   name: test-app
@@ -21,8 +21,8 @@ spec:
           ports:
             - containerPort: 8080
 ---
-kind: service
 apiVersion: v1
+kind: Service
 metadata:
   name: test-app
 spec:
@@ -30,5 +30,4 @@ spec:
     app: test-app
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 8080
+      port: 8080
