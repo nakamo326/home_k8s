@@ -16,11 +16,11 @@ spec:
         app: test-app
     spec:
       containers:
-      - name: test-app
-        image: ysfm/test_sp:0.0.1
-        ports:
-        - containerPort: 8080
-```
+        - name: test-app
+          image: ysfm/test_sp:0.0.1
+          ports:
+            - containerPort: 8080
+---
 kind: service
 apiVersion: v1
 metadata:
@@ -29,7 +29,6 @@ spec:
   selector:
     app: test-app
   ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 8080
-```
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
