@@ -1,0 +1,35 @@
+# manifest for simple deployment.
+kind: deployment
+apiVersion: apps/v1
+metadata:
+  name: test-app
+  labels:
+    app: test-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: test-app
+  template:
+    metadata:
+      labels:
+        app: test-app
+    spec:
+      containers:
+      - name: test-app
+        image: ysfm/test_sp:0.0.1
+        ports:
+        - containerPort: 8080
+```
+kind: service
+apiVersion: v1
+metadata:
+  name: test-app
+spec:
+  selector:
+    app: test-app
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080
+```
