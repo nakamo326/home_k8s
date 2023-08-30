@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: test-app
-          image: ysfm/test_sp:0.0.3
+          image: ysfm/test_sp:0.0.4
           ports:
             - containerPort: 8080
 ---
