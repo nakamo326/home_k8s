@@ -1,0 +1,46 @@
+# manifest for simple deployment.
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: log_service
+  labels:
+    app: log_service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: log_service
+  template:
+    metadata:
+      labels:
+        app: log_service
+    spec:
+      containers:
+        - name: log_service
+          image: ysfm/log_service:latest
+          env:
+            - name: EXAMPLE_VAR
+              value: "normal log service"
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: credential_log_service
+  labels:
+    app: credential_log_service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: credential_log_service
+  template:
+    metadata:
+      labels:
+        app: credential_log_service
+    spec:
+      containers:
+        - name: credential_log_service
+          image: ysfm/log_service:latest
+          env:
+            - name: EXAMPLE_VAR
+              value: "credential log service"
