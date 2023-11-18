@@ -5,6 +5,7 @@ metadata:
   name: log-service
   labels:
     app: log-service
+    tags.datadoghq.com/service: "log_service"
 spec:
   replicas: 1
   selector:
@@ -14,6 +15,7 @@ spec:
     metadata:
       labels:
         app: log-service
+        tags.datadoghq.com/service: "log_service"
     spec:
       containers:
         - name: log-service
@@ -28,11 +30,13 @@ metadata:
   name: credential-log-service
   labels:
     app: credential-log-service
+    tags.datadoghq.com/service: "credential_log_service"
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: credential-log-service
+      tags.datadoghq.com/service: "credential_log_service"
   template:
     metadata:
       labels:
