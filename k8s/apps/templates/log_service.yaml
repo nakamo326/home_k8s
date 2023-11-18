@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: log-service
-          image: ysfm/log_service:0.0.2
+          image: ysfm/log_service:0.0.3
           env:
             - name: EXAMPLE_VAR
               value: "normal log service"
@@ -44,7 +44,7 @@ spec:
     spec:
       containers:
         - name: credential-log-service
-          image: ysfm/log_service:0.0.2
+          image: ysfm/log_service:0.0.3
           env:
             - name: EXAMPLE_VAR
               value: "credential log service"
