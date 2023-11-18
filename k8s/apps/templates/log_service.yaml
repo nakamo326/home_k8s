@@ -2,21 +2,21 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: log_service
+  name: log-service
   labels:
-    app: log_service
+    app: log-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: log_service
+      app: log-service
   template:
     metadata:
       labels:
-        app: log_service
+        app: log-service
     spec:
       containers:
-        - name: log_service
+        - name: log-service
           image: ysfm/log_service:latest
           env:
             - name: EXAMPLE_VAR
@@ -25,21 +25,21 @@ spec:
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: credential_log_service
+  name: credential-log-service
   labels:
-    app: credential_log_service
+    app: credential-log-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: credential_log_service
+      app: credential-log-service
   template:
     metadata:
       labels:
-        app: credential_log_service
+        app: credential-log-service
     spec:
       containers:
-        - name: credential_log_service
+        - name: credential-log-service
           image: ysfm/log_service:latest
           env:
             - name: EXAMPLE_VAR
