@@ -36,11 +36,11 @@ spec:
   selector:
     matchLabels:
       app: credential-log-service
-      tags.datadoghq.com/service: "credential_log_service"
   template:
     metadata:
       labels:
         app: credential-log-service
+        tags.datadoghq.com/service: "credential_log_service"
     spec:
       containers:
         - name: credential-log-service
